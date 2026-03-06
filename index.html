@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width,initial-scale=1"/>
-<title>Review Widget</title>
+<title>Review Carousel</title>
 
 <style>
 html, body {
@@ -14,7 +14,7 @@ html, body {
   overflow: hidden;
 }
 
-/* VIEWPORT — CLIPS TO 5 CARDS */
+/* VIEWPORT */
 #review-carousel-widget {
   width: 100%;
   max-width: 900px;
@@ -28,7 +28,7 @@ html, body {
   transition: transform 0.45s ease;
 }
 
-/* SLIDE — EXACTLY 5 FIT */
+/* SLIDE */
 .review-slide {
   flex: 0 0 20%;
   display: flex;
@@ -39,7 +39,6 @@ html, body {
 /* CARD */
 .review-card {
   width: 95%;
-  min-height: 220px;
   background: rgba(20,20,20,0.85);
   backdrop-filter: blur(6px);
   border-radius: 12px;
@@ -51,14 +50,14 @@ html, body {
   box-sizing: border-box;
 }
 
-/* HERO CARD — SLIGHTLY BIGGER */
+/* HERO CARD */
 .review-slide.hero .review-card {
   transform: scale(1.08);
   box-shadow: 0 0 14px #89e909;
   z-index: 2;
 }
 
-/* SIDE CARDS — NORMAL */
+/* SIDE CARDS */
 .review-slide.side .review-card {
   transform: scale(1.00);
 }
@@ -96,7 +95,7 @@ html, body {
   overflow: hidden;
 }
 
-/* FADE-OUT OVERLAY */
+/* FADE-OUT */
 .fade-out {
   position: absolute;
   left: 0;
@@ -107,7 +106,7 @@ html, body {
   pointer-events: none;
 }
 
-/* VIEW-ALL LINK CARD */
+/* VIEW ALL LINK */
 .view-link {
   color: #89e909;
   text-decoration: none;
@@ -146,8 +145,8 @@ html, body {
     </div>
     <div class="review-text">
       <div class="review-text-inner"></div>
+      <div class="fade-out"></div>
     </div>
-    <div class="fade-out"></div>
   </div>
 </div>
 
@@ -170,8 +169,10 @@ html, body {
         </div>
       </div>
     </div>
-    <div class="review-text"><div class="review-text-inner"></div></div>
-    <div class="fade-out"></div>
+    <div class="review-text">
+      <div class="review-text-inner"></div>
+      <div class="fade-out"></div>
+    </div>
   </div>
 </div>
 
@@ -194,8 +195,10 @@ html, body {
         </div>
       </div>
     </div>
-    <div class="review-text"><div class="review-text-inner"></div></div>
-    <div class="fade-out"></div>
+    <div class="review-text">
+      <div class="review-text-inner"></div>
+      <div class="fade-out"></div>
+    </div>
   </div>
 </div>
 
@@ -218,8 +221,10 @@ html, body {
         </div>
       </div>
     </div>
-    <div class="review-text"><div class="review-text-inner"></div></div>
-    <div class="fade-out"></div>
+    <div class="review-text">
+      <div class="review-text-inner"></div>
+      <div class="fade-out"></div>
+    </div>
   </div>
 </div>
 
@@ -242,8 +247,10 @@ html, body {
         </div>
       </div>
     </div>
-    <div class="review-text"><div class="review-text-inner"></div></div>
-    <div class="fade-out"></div>
+    <div class="review-text">
+      <div class="review-text-inner"></div>
+      <div class="fade-out"></div>
+    </div>
   </div>
 </div>
 
@@ -266,11 +273,12 @@ html, body {
         </div>
       </div>
     </div>
-    <div class="review-text"><div class="review-text-inner"></div></div>
-    <div class="fade-out"></div>
+    <div class="review-text">
+      <div class="review-text-inner"></div>
+      <div class="fade-out"></div>
+    </div>
   </div>
 </div>
-
 
 <div class="review-slide"
      data-avatar="https://images.squarespace-cdn.com/content/65ea38ec5ab3d438a44100e2/c12facb3-7aec-47ba-8ae5-00edf62906bf/google+logo+review.png?content-type=image%2Fpng"
@@ -291,8 +299,10 @@ html, body {
         </div>
       </div>
     </div>
-    <div class="review-text"><div class="review-text-inner"></div></div>
-    <div class="fade-out"></div>
+    <div class="review-text">
+      <div class="review-text-inner"></div>
+      <div class="fade-out"></div>
+    </div>
   </div>
 </div>
 
@@ -315,13 +325,15 @@ html, body {
         </div>
       </div>
     </div>
-    <div class="review-text"><div class="review-text-inner"></div></div>
-    <div class="fade-out"></div>
+    <div class="review-text">
+      <div class="review-text-inner"></div>
+      <div class="fade-out"></div>
+    </div>
   </div>
 </div>
 
 <div class="review-slide"
-    data-avatar="https://images.squarespace-cdn.com/content/65ea38ec5ab3d438a44100e2/c12facb3-7aec-47ba-8ae5-00edf62906bf/google+logo+review.png?content-type=image%2Fpng"
+     data-avatar="https://images.squarespace-cdn.com/content/65ea38ec5ab3d438a44100e2/c12facb3-7aec-47ba-8ae5-00edf62906bf/google+logo+review.png?content-type=image%2Fpng"
      data-name="Fiona Clendennin"
      data-stars="★★★★★"
      data-full="I highly recommend 2 The Top Roofing. They did a great job, and we couldn't be happier. So easy to deal with and priced affordably."
@@ -339,8 +351,10 @@ html, body {
         </div>
       </div>
     </div>
-    <div class="review-text"><div class="review-text-inner"></div></div>
-    <div class="fade-out"></div>
+    <div class="review-text">
+      <div class="review-text-inner"></div>
+      <div class="fade-out"></div>
+    </div>
   </div>
 </div>
 
@@ -363,10 +377,13 @@ html, body {
         </div>
       </div>
     </div>
-    <div class="review-text"><div class="review-text-inner"></div></div>
-    <div class="fade-out"></div>
+    <div class="review-text">
+      <div class="review-text-inner"></div>
+      <div class="fade-out"></div>
+    </div>
   </div>
 </div>
+
 <div class="review-slide"
      data-avatar="https://images.squarespace-cdn.com/content/65ea38ec5ab3d438a44100e2/c12facb3-7aec-47ba-8ae5-00edf62906bf/google+logo+review.png?content-type=image%2Fpng"
      data-name="Cass"
@@ -386,10 +403,13 @@ html, body {
         </div>
       </div>
     </div>
-    <div class="review-text"><div class="review-text-inner"></div></div>
-    <div class="fade-out"></div>
+    <div class="review-text">
+      <div class="review-text-inner"></div>
+      <div class="fade-out"></div>
+    </div>
   </div>
 </div>
+
 <div class="review-slide"
      data-avatar="https://images.squarespace-cdn.com/content/65ea38ec5ab3d438a44100e2/c12facb3-7aec-47ba-8ae5-00edf62906bf/google+logo+review.png?content-type=image%2Fpng"
      data-name="Marilyn Huenison"
@@ -409,10 +429,13 @@ html, body {
         </div>
       </div>
     </div>
-    <div class="review-text"><div class="review-text-inner"></div></div>
-    <div class="fade-out"></div>
+    <div class="review-text">
+      <div class="review-text-inner"></div>
+      <div class="fade-out"></div>
+    </div>
   </div>
 </div>
+
 <div class="review-slide"
      data-avatar="https://images.squarespace-cdn.com/content/65ea38ec5ab3d438a44100e2/c12facb3-7aec-47ba-8ae5-00edf62906bf/google+logo+review.png?content-type=image%2Fpng"
      data-name="Skeleton Wizard"
@@ -432,8 +455,10 @@ html, body {
         </div>
       </div>
     </div>
-    <div class="review-text"><div class="review-text-inner"></div></div>
-    <div class="fade-out"></div>
+    <div class="review-text">
+      <div class="review-text-inner"></div>
+      <div class="fade-out"></div>
+    </div>
   </div>
 </div>
 <div class="review-slide"
@@ -457,15 +482,17 @@ html, body {
     </div>
     <div class="review-text">
       <div class="review-text-inner"></div>
+      <div class="fade-out"></div>
     </div>
-    <div class="fade-out"></div>
   </div>
 </div>
+
+
 <div class="review-slide"
      data-avatar="https://images.squarespace-cdn.com/content/65ea38ec5ab3d438a44100e2/c12facb3-7aec-47ba-8ae5-00edf62906bf/google+logo+review.png?content-type=image%2Fpng"
      data-name="Glenn Washington"
      data-stars="★★★★★"
-     data-full="I couldn’t be more impressed with 2 the top. They had very competitive pricing. They gave me a military discount. I was absolutely blown away by the presentation Avery gave to us in our home. They were the only roofing company willing to come in person to give a quote and explain the process from start to finish. Their crew was very respectful and were in and out before we knew it. They cleaned up so well after the job was completed. Brandon responded to all questions promptly. He runs a tight ship. We would strongly recommend calling Brandon if you’re in the market for a new roof"
+     data-full="I couldn’t be more impressed with 2 the top. They had very competitive pricing. They gave me a military discount. I was absolutely blown away by the presentation Avery gave to us in our home. They were the only roofing company willing to come in person to give a quote and explain the process from start to finish. Their crew was very respectful and were in and out before we knew it. They cleaned up so well after the job was completed. Brandon responded to all questions promptly. He runs a tight ship. We would strongly recommend calling Brandon if you’re in the market for a new roof."
      data-date="May 2025">
   <div class="review-card">
     <div class="card-header vertical">
@@ -482,15 +509,17 @@ html, body {
     </div>
     <div class="review-text">
       <div class="review-text-inner"></div>
+      <div class="fade-out"></div>
     </div>
-    <div class="fade-out"></div>
   </div>
 </div>
+
+
 <div class="review-slide"
      data-avatar="https://images.squarespace-cdn.com/content/65ea38ec5ab3d438a44100e2/c12facb3-7aec-47ba-8ae5-00edf62906bf/google+logo+review.png?content-type=image%2Fpng"
      data-name="Maria Mercedes Molina"
      data-stars="★★★★★"
-     data-full="I had a great service from this company, they are pretty experienced and polished in their work. We are so satisfied with the product and I would recommend to anyone that is loofing for roofing replacement, these guys are your best option!"
+     data-full="I had a great service from this company, they are pretty experienced and polished in their work. We are so satisfied with the product and I would recommend to anyone that is looking for roofing replacement, these guys are your best option!"
      data-date="May 2025">
   <div class="review-card">
     <div class="card-header vertical">
@@ -507,10 +536,12 @@ html, body {
     </div>
     <div class="review-text">
       <div class="review-text-inner"></div>
+      <div class="fade-out"></div>
     </div>
-    <div class="fade-out"></div>
   </div>
 </div>
+
+
 <div class="review-slide"
      data-avatar="https://images.squarespace-cdn.com/content/65ea38ec5ab3d438a44100e2/c12facb3-7aec-47ba-8ae5-00edf62906bf/google+logo+review.png?content-type=image%2Fpng"
      data-name="May Wei"
@@ -532,15 +563,17 @@ html, body {
     </div>
     <div class="review-text">
       <div class="review-text-inner"></div>
+      <div class="fade-out"></div>
     </div>
-    <div class="fade-out"></div>
   </div>
 </div>
+
+
 <div class="review-slide"
      data-avatar="https://images.squarespace-cdn.com/content/65ea38ec5ab3d438a44100e2/c12facb3-7aec-47ba-8ae5-00edf62906bf/google+logo+review.png?content-type=image%2Fpng"
      data-name="R B"
      data-stars="★★★★★"
-     data-full="These guys were great! Avery the sales guy was fantastic. The crew were friendly and courteous. Brandon the owner came out the next day to check on things and confirm we were satisfied with the results. Top notch all the way. Price was competitive. Roof looks great. can't ask for much more. Thanks 2 The Top Roofing!!"
+     data-full="These guys were great! Avery the sales guy was fantastic. The crew were friendly and courteous. Brandon the owner came out the next day to check on things and confirm we were satisfied with the results. Top notch all the way. Price was competitive. Roof looks great. Can't ask for much more. Thanks 2 The Top Roofing!!"
      data-date="May 2025">
   <div class="review-card">
     <div class="card-header vertical">
@@ -557,14 +590,15 @@ html, body {
     </div>
     <div class="review-text">
       <div class="review-text-inner"></div>
+      <div class="fade-out"></div>
     </div>
-    <div class="fade-out"></div>
   </div>
 </div>
 
-    <!-- LAST CARD BELOW: -->
+
+<!-- VIEW ALL CARD -->
 <div class="review-slide view-all-card"
- data-avatar="https://images.squarespace-cdn.com/content/65ea38ec5ab3d438a44100e2/c12facb3-7aec-47ba-8ae5-00edf62906bf/google+logo+review.png?content-type=image%2Fpng"
+     data-avatar="https://images.squarespace-cdn.com/content/65ea38ec5ab3d438a44100e2/c12facb3-7aec-47ba-8ae5-00edf62906bf/google+logo+review.png?content-type=image%2Fpng"
      data-name="View All Our 99+"
      data-stars="★★★★★"
      data-full="Click to see why we're consistently rated 5 stars by our customers!"
@@ -582,12 +616,18 @@ html, body {
         </div>
       </div>
     </div>
-    <a class="review-text view-link" href="https://www.google.com/search?q=2+The+Top+Roofing+Reviews&hl=en#lrd=0x53a025c1bd4fc2e3:0xefbe9a6ebcb3e287,1,,,," target="_blank" rel="noopener noreferrer">
+
+    <a class="review-text view-link"
+       href="https://www.google.com/search?q=2+The+Top+Roofing+Reviews"
+       target="_blank" rel="noopener noreferrer">
+
       <div class="review-text-inner"></div>
+      <div class="fade-out"></div>
+
     </a>
-    <div class="fade-out"></div>
   </div>
 </div>
+
 
   </div>
 </div>
@@ -619,7 +659,7 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   function update() {
-    const offset = (idx - 2) * 20; // 5 cards = 20% each
+    const offset = (idx - 2) * 20;
     track.style.transform = `translateX(-${offset}%)`;
 
     slides.forEach((slide, i) => {
