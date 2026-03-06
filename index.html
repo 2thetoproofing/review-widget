@@ -8,88 +8,81 @@
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Segoe+UI:wght@400;600&display=swap');
 
-/* GLOBAL RESET + TRANSPARENT BACKGROUND */
+/* GLOBAL RESET */
 html, body {
   margin: 0;
   padding: 0;
   background: transparent !important;
   font-family: 'Segoe UI', sans-serif;
-  overflow-x: hidden;
+  overflow: hidden;
 }
 
-/* HIDE ALL SCROLLBARS */
-* {
-  scrollbar-width: none !important;
-}
-*::-webkit-scrollbar {
-  display: none !important;
-}
+/* HIDE SCROLLBARS */
+*::-webkit-scrollbar { display: none; }
 
-/* CRISP RENDERING FIX FOR GENIALLY */
+/* CRISP GENIALLY RENDERING */
 #scale-wrapper {
-  transform: scale(1.15);      /* upscale for crispness */
+  transform: scale(1.15);
   transform-origin: top center;
-  width: 87%;                  /* compensates for upscale */
+  width: 87%;
 }
 
-/* WIDGET CONTAINER */
+/* MAIN WRAPPER */
 #review-carousel-widget {
-  max-width: 900px;
+  max-width: 1100px;
   margin: 0 auto;
-  padding: 0;
-  background: transparent !important;
+  overflow: hidden;
 }
 
 /* TRACK */
 .carousel-track {
   display: flex;
-  transition: transform 0.5s ease;
+  transition: transform 0.55s ease;
+  will-change: transform;
   padding: 1rem 0;
 }
 
-/* SLIDES — TIGHTER SPACING */
+/* SLIDE */
 .review-slide {
-  flex: 0 0 28%;          /* tighter */
-  padding: 0 0.15rem;     /* tighter */
-  margin-right: -6px;     /* closes gaps */
-  box-sizing: border-box;
-  cursor: pointer;
+  flex: 0 0 20%; /* 5 cards visible */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  transition: transform 0.35s ease, opacity 0.35s ease;
 }
 
-/* ACTIVE CARD GLOW */
-.review-slide.active .review-card {
-  box-shadow: 0 0 16px #89e909;
-}
-
-/* DARK THEME CARD */
+/* CARD BASE */
 .review-card {
-  background: rgba(20, 20, 20, 0.75);
+  width: 90%;
+  background: rgba(20,20,20,0.75);
   backdrop-filter: blur(6px);
   border-radius: 12px;
-  box-shadow: 0 4px 12px rgba(0,0,0,.4);
-  padding: 1.25rem;
+  padding: 1.1rem;
   height: 220px;
   display: flex;
   flex-direction: column;
-  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  box-shadow: 0 4px 12px rgba(0,0,0,.35);
+  transition: transform 0.35s ease, box-shadow 0.35s ease;
 }
 
-/* HOVER LIFT */
-.review-card:hover {
-  transform: translateY(-4px);
+/* HERO CENTER CARD */
+.review-slide.hero .review-card {
+  transform: scale(1.12);
+  box-shadow: 0 0 18px #89e909;
+  z-index: 3;
+}
+
+/* SIDE CARDS */
+.review-slide.side .review-card {
+  transform: scale(0.92);
+  opacity: 0.85;
 }
 
 /* HEADER */
-.card-header.vertical {
+.card-header {
   display: flex;
   align-items: center;
-  margin-bottom: 0.65rem;
-}
-
-.header-left {
-  display: flex;
-  align-items: center;
-  gap: 0.65rem;
+  margin-bottom: 0.6rem;
 }
 
 .review-avatar {
@@ -97,10 +90,11 @@ html, body {
   height: 42px;
   border-radius: 50%;
   object-fit: cover;
+  margin-right: 0.6rem;
 }
 
 .reviewer-name {
-  font-weight: bold;
+  font-weight: 600;
   color: #fff;
 }
 
@@ -110,14 +104,9 @@ html, body {
 }
 
 .review-date {
-  font-size: 0.75rem;
   color: #bbb;
-}
-
-.stars-and-date {
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
+  font-size: 0.75rem;
+  margin-left: 0.4rem;
 }
 
 /* TEXT */
@@ -129,17 +118,12 @@ html, body {
   flex-grow: 1;
 }
 
-.review-text-inner {
-  display: inline-block;
-}
-
 /* DOTS */
 .dots {
-  text-align: center;
-  margin-top: 0.5rem;
   display: flex;
   justify-content: center;
   gap: 6px;
+  margin-top: 0.5rem;
 }
 
 .dot {
@@ -626,6 +610,7 @@ html, body {
     <div class="fade-out"></div>
   </div>
 </div>
+
   </div>
 
   <div class="dots" id="dots"></div>
@@ -633,55 +618,66 @@ html, body {
 </div>
 
 <script>
-document.addEventListener('DOMContentLoaded', () => {
-  const track  = document.getElementById('carousel');
+document.addEventListener("DOMContentLoaded", () => {
+  const track = document.getElementById("carousel");
   const slides = Array.from(track.children);
-  const dots   = document.getElementById('dots');
-  let idx = 0;
+  const dots = document.getElementById("dots");
 
-  function perView() { return 3; }
+  let idx = 2; // center index
+  const perView = 5;
 
-  // Build slides + dots
+  /* Populate content + dots */
   slides.forEach((slide, i) => {
-    slide.querySelector('.review-avatar').src = slide.dataset.avatar;
-    slide.querySelector('.reviewer-name').textContent = slide.dataset.name;
-    slide.querySelector('.review-stars').textContent = slide.dataset.stars;
-    slide.querySelector('.review-date').textContent = slide.dataset.date;
-    slide.querySelector('.review-text-inner').textContent = slide.dataset.full;
+    slide.querySelector(".review-avatar").src = slide.dataset.avatar;
+    slide.querySelector(".reviewer-name").textContent = slide.dataset.name;
+    slide.querySelector(".review-stars").textContent = slide.dataset.stars;
+    slide.querySelector(".review-date").textContent = slide.dataset.date;
+    slide.querySelector(".review-text").textContent = slide.dataset.full;
 
-    const dot = document.createElement('span');
-    dot.className = 'dot';
-    dot.dataset.index = i;
-    dot.addEventListener('click', () => {
+    const dot = document.createElement("span");
+    dot.className = "dot";
+    dot.addEventListener("click", () => {
       idx = i;
       update();
       clearInterval(autoScroll);
     });
     dots.append(dot);
 
-    slide.addEventListener('click', () => {
+    slide.addEventListener("click", () => {
       idx = i;
       update();
       clearInterval(autoScroll);
     });
   });
 
+  /* Infinite Loop Helpers */
+  function normalize(i) {
+    return (i + slides.length) % slides.length;
+  }
+
+  /* Update visuals */
   function update() {
-    const offset = idx * (100 / perView());
+    const offset = (idx - 2) * (100 / perView);
     track.style.transform = `translateX(-${offset}%)`;
 
-    slides.forEach((s, i) => s.classList.toggle('active', i === idx));
-    dots.querySelectorAll('.dot').forEach((d, i) => {
-      d.classList.toggle('active', i === idx);
+    slides.forEach((slide, i) => {
+      slide.classList.remove("hero", "side");
+
+      if (i === idx) {
+        slide.classList.add("hero");
+      } else {
+        slide.classList.add("side");
+      }
+    });
+
+    dots.querySelectorAll(".dot").forEach((d, i) => {
+      d.classList.toggle("active", i === idx);
     });
   }
 
-  // Set first card active
-  slides[0].classList.add("active");
-
-  // Auto-scroll every 4 seconds
+  /* Auto-scroll */
   let autoScroll = setInterval(() => {
-    idx = (idx + 1) % slides.length;
+    idx = normalize(idx + 1);
     update();
   }, 4000);
 
