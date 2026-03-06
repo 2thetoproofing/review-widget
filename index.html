@@ -14,18 +14,12 @@ html, body {
   overflow: hidden;
 }
 
-/* CRISP GENIALLY FIX */
-#scale-wrapper {
-  transform: scale(1.05);
-  transform-origin: top center;
-  width: 100%;
-}
-
 /* VIEWPORT — CLIPS TO 5 CARDS */
 #review-carousel-widget {
+  width: 100%;
   max-width: 900px;
   margin: 0 auto;
-  overflow: hidden; /* IMPORTANT */
+  overflow: hidden;
 }
 
 /* TRACK */
@@ -36,32 +30,35 @@ html, body {
 
 /* SLIDE — EXACTLY 5 FIT */
 .review-slide {
-  flex: 0 0 20%; /* 5 cards */
+  flex: 0 0 20%;
   display: flex;
   justify-content: center;
   align-items: center;
 }
 
-/* CARD — SAME SIZE AS BEFORE */
+/* CARD */
 .review-card {
   width: 95%;
-  height: 220px; /* your original height */
-  background: rgba(20,20,20,0.75);
+  min-height: 220px;
+  background: rgba(20,20,20,0.85);
   backdrop-filter: blur(6px);
   border-radius: 12px;
   padding: 1.1rem;
   box-shadow: 0 4px 12px rgba(0,0,0,.35);
   transition: transform 0.25s ease, box-shadow 0.25s ease;
+  display: flex;
+  flex-direction: column;
+  box-sizing: border-box;
 }
 
-/* HERO CARD — ONLY SLIGHTLY BIGGER */
+/* HERO CARD — SLIGHTLY BIGGER */
 .review-slide.hero .review-card {
   transform: scale(1.08);
   box-shadow: 0 0 14px #89e909;
   z-index: 2;
 }
 
-/* NORMAL SIDE CARDS */
+/* SIDE CARDS — NORMAL */
 .review-slide.side .review-card {
   transform: scale(1.00);
 }
@@ -85,18 +82,46 @@ html, body {
 .review-stars { color: #f5b50a; font-size: 0.9rem; }
 .review-date { color: #bbb; font-size: 0.75rem; margin-left: 0.4rem; }
 
+/* TEXT AREA */
 .review-text {
   font-size: 0.8rem;
   color: #ddd;
   line-height: 1.35em;
+  position: relative;
   overflow: hidden;
+  flex-grow: 1;
+}
+
+.review-text-inner {
+  overflow: hidden;
+}
+
+/* FADE-OUT OVERLAY */
+.fade-out {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 32px;
+  background: linear-gradient(to bottom, rgba(20,20,20,0) 0%, rgba(20,20,20,0.95) 100%);
+  pointer-events: none;
+}
+
+/* VIEW-ALL LINK CARD */
+.view-link {
+  color: #89e909;
+  text-decoration: none;
+  display: block;
+  height: 100%;
+}
+.view-link:hover {
+  text-decoration: underline;
 }
 </style>
 </head>
 
 <body>
 
-<div id="scale-wrapper">
 <div id="review-carousel-widget">
   <div class="carousel-track" id="carousel">
 
@@ -566,7 +591,6 @@ html, body {
 
   </div>
 </div>
-</div>
 
 <script>
 document.addEventListener("DOMContentLoaded", () => {
@@ -575,12 +599,27 @@ document.addEventListener("DOMContentLoaded", () => {
 
   let idx = 2; // center card
 
+  // populate content
+  slides.forEach(slide => {
+    const avatar = slide.querySelector(".review-avatar");
+    const name = slide.querySelector(".reviewer-name");
+    const stars = slide.querySelector(".review-stars");
+    const date = slide.querySelector(".review-date");
+    const textInner = slide.querySelector(".review-text-inner");
+
+    if (avatar) avatar.src = slide.dataset.avatar || "";
+    if (name) name.textContent = slide.dataset.name || "";
+    if (stars) stars.textContent = slide.dataset.stars || "";
+    if (date) date.textContent = slide.dataset.date || "";
+    if (textInner) textInner.textContent = slide.dataset.full || "";
+  });
+
   function normalize(i) {
     return (i + slides.length) % slides.length;
   }
 
   function update() {
-    const offset = (idx - 2) * 20; /* 5 cards = 20% each */
+    const offset = (idx - 2) * 20; // 5 cards = 20% each
     track.style.transform = `translateX(-${offset}%)`;
 
     slides.forEach((slide, i) => {
