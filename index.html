@@ -1,81 +1,69 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8"/>
-  <meta name="viewport" content="width=device-width,initial-scale=1"/>
-  <title>Review Widget</title>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>Review Widget</title>
 
 <style>
-@import url('https://fonts.googleapis.com/css2?family=Segoe+UI:wght@400;600&display=swap');
-
-/* GLOBAL RESET */
 html, body {
   margin: 0;
   padding: 0;
-  background: transparent !important;
-  font-family: 'Segoe UI', sans-serif;
+  background: transparent;
+  font-family: Segoe UI, sans-serif;
   overflow: hidden;
 }
 
-/* HIDE SCROLLBARS */
-*::-webkit-scrollbar { display: none; }
-
-/* CRISP GENIALLY RENDERING */
+/* CRISP GENIALLY FIX */
 #scale-wrapper {
-  transform: scale(1.15);
+  transform: scale(1.05);
   transform-origin: top center;
-  width: 87%;
+  width: 100%;
 }
 
-/* MAIN WRAPPER */
+/* VIEWPORT — CLIPS TO 5 CARDS */
 #review-carousel-widget {
-  max-width: 1100px;
+  max-width: 900px;
   margin: 0 auto;
-  overflow: hidden;
+  overflow: hidden; /* IMPORTANT */
 }
 
 /* TRACK */
 .carousel-track {
   display: flex;
-  transition: transform 0.55s ease;
-  will-change: transform;
-  padding: 1rem 0;
+  transition: transform 0.45s ease;
 }
 
-/* SLIDE */
+/* SLIDE — EXACTLY 5 FIT */
 .review-slide {
-  flex: 0 0 20%; /* 5 cards visible */
+  flex: 0 0 20%; /* 5 cards */
   display: flex;
   justify-content: center;
   align-items: center;
-  transition: transform 0.35s ease, opacity 0.35s ease;
 }
 
-/* CARD BASE */
+/* CARD — SAME SIZE AS BEFORE */
 .review-card {
-  width: 90%;
+  width: 95%;
+  height: 220px; /* your original height */
   background: rgba(20,20,20,0.75);
   backdrop-filter: blur(6px);
   border-radius: 12px;
   padding: 1.1rem;
-  height: 220px;
-  display: flex;
-  flex-direction: column;
   box-shadow: 0 4px 12px rgba(0,0,0,.35);
-  transition: transform 0.35s ease, box-shadow 0.35s ease;
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
 }
 
-/* HERO CENTER CARD */
+/* HERO CARD — ONLY SLIGHTLY BIGGER */
 .review-slide.hero .review-card {
-  transform: scale(1.12);
-  box-shadow: 0 0 18px #89e909;
-  z-index: 3;
+  transform: scale(1.08);
+  box-shadow: 0 0 14px #89e909;
+  z-index: 2;
 }
 
-/* SIDE CARDS */
+/* NORMAL SIDE CARDS */
 .review-slide.side .review-card {
-  transform: scale(0.92);
-  opacity: 0.85;
+  transform: scale(1.00);
 }
 
 /* HEADER */
@@ -93,50 +81,15 @@ html, body {
   margin-right: 0.6rem;
 }
 
-.reviewer-name {
-  font-weight: 600;
-  color: #fff;
-}
+.reviewer-name { color: #fff; font-weight: 600; }
+.review-stars { color: #f5b50a; font-size: 0.9rem; }
+.review-date { color: #bbb; font-size: 0.75rem; margin-left: 0.4rem; }
 
-.review-stars {
-  color: #f5b50a;
-  font-size: 0.9rem;
-}
-
-.review-date {
-  color: #bbb;
-  font-size: 0.75rem;
-  margin-left: 0.4rem;
-}
-
-/* TEXT */
 .review-text {
   font-size: 0.8rem;
   color: #ddd;
   line-height: 1.35em;
   overflow: hidden;
-  flex-grow: 1;
-}
-
-/* DOTS */
-.dots {
-  display: flex;
-  justify-content: center;
-  gap: 6px;
-  margin-top: 0.5rem;
-}
-
-.dot {
-  width: 8px;
-  height: 8px;
-  background: #666;
-  border-radius: 50%;
-  transition: 0.3s ease;
-}
-
-.dot.active {
-  background: #89e909;
-  transform: scale(1.3);
 }
 </style>
 </head>
@@ -612,8 +565,6 @@ html, body {
 </div>
 
   </div>
-
-  <div class="dots" id="dots"></div>
 </div>
 </div>
 
@@ -621,28 +572,25 @@ html, body {
 document.addEventListener("DOMContentLoaded", () => {
   const track = document.getElementById("carousel");
   const slides = Array.from(track.children);
-  const dots = document.getElementById("dots");
 
-  let idx = 2; // center index
-  const perView = 5;
+  let idx = 2; // center card
 
-  /* Populate content + dots */
-  slides.forEach((slide, i) => {
-    slide.querySelector(".review-avatar").src = slide.dataset.avatar;
-    slide.querySelector(".reviewer-name").textContent = slide.dataset.name;
-    slide.querySelector(".review-stars").textContent = slide.dataset.stars;
-    slide.querySelector(".review-date").textContent = slide.dataset.date;
-    slide.querySelector(".review-text").textContent = slide.dataset.full;
+  function normalize(i) {
+    return (i + slides.length) % slides.length;
+  }
 
-    const dot = document.createElement("span");
-    dot.className = "dot";
-    dot.addEventListener("click", () => {
-      idx = i;
-      update();
-      clearInterval(autoScroll);
+  function update() {
+    const offset = (idx - 2) * 20; /* 5 cards = 20% each */
+    track.style.transform = `translateX(-${offset}%)`;
+
+    slides.forEach((slide, i) => {
+      slide.classList.remove("hero", "side");
+      if (i === idx) slide.classList.add("hero");
+      else slide.classList.add("side");
     });
-    dots.append(dot);
+  }
 
+  slides.forEach((slide, i) => {
     slide.addEventListener("click", () => {
       idx = i;
       update();
@@ -650,32 +598,6 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   });
 
-  /* Infinite Loop Helpers */
-  function normalize(i) {
-    return (i + slides.length) % slides.length;
-  }
-
-  /* Update visuals */
-  function update() {
-    const offset = (idx - 2) * (100 / perView);
-    track.style.transform = `translateX(-${offset}%)`;
-
-    slides.forEach((slide, i) => {
-      slide.classList.remove("hero", "side");
-
-      if (i === idx) {
-        slide.classList.add("hero");
-      } else {
-        slide.classList.add("side");
-      }
-    });
-
-    dots.querySelectorAll(".dot").forEach((d, i) => {
-      d.classList.toggle("active", i === idx);
-    });
-  }
-
-  /* Auto-scroll */
   let autoScroll = setInterval(() => {
     idx = normalize(idx + 1);
     update();
