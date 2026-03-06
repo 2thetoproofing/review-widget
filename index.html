@@ -52,7 +52,8 @@ html, body {
   flex-direction: column;
   box-sizing: border-box;
 margin: 0 8px;
-
+  height: 200px; /* ← THIS IS THE FIX */
+  overflow: hidden; /* ensures text stays inside */
 }
 
 /* HERO CARD — ORIGINAL SCALE */
@@ -674,13 +675,6 @@ document.addEventListener("DOMContentLoaded", () => {
     if (textInner) textInner.textContent = slide.dataset.full || "";
   });
 
-  // 🔥 NO MORE FORCED HEIGHTS
-  function lockHeights() {
-    const cards = Array.from(track.querySelectorAll(".review-card"));
-    cards.forEach(card => {
-      card.style.height = "auto";
-    });
-  }
 
   function normalize(i) {
     return (i + slides.length) % slides.length;
