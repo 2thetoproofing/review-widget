@@ -20,7 +20,7 @@ html, body {
   max-width: 900px;
   margin: 0 auto;
   overflow: hidden;
-  padding: 24px 0; /* original breathing room */
+  padding: 16px 0; /* original breathing room */
   box-sizing: border-box;
 }
 
@@ -57,7 +57,7 @@ margin: 0 8px;
 
 /* HERO CARD — ORIGINAL SCALE */
 .review-slide.hero .review-card {
-  transform: scale(1.08);
+  transform: scale(1.04);
   box-shadow: 0 0 14px #89e909;
   z-index: 2;
 }
@@ -681,7 +681,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     cards.forEach(card => {
       card.style.height = "auto";
-      const h = card.offsetHeight;
+      const h = card.getBoundingClientRect().height / (card.style.transform ? 1.08 : 1);
       if (h > max) max = h;
     });
 
