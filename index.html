@@ -25,6 +25,13 @@ html, body {
   display: none !important;
 }
 
+/* SCALE FIX FOR GENIALLY (CRISP RENDERING) */
+#scale-wrapper {
+  transform: scale(0.8);
+  transform-origin: top center;
+  width: 125%;
+}
+
 /* WIDGET CONTAINER */
 #review-carousel-widget {
   max-width: 900px;
@@ -47,6 +54,7 @@ html, body {
   box-sizing: border-box;
   transform: scale(0.75);
   transform-origin: top center;
+  cursor: pointer;
 }
 
 /* ACTIVE SLIDE POP */
@@ -144,6 +152,7 @@ html, body {
 
 <body>
 
+<div id="scale-wrapper">
 <div id="review-carousel-widget">
   <div class="carousel-track" id="carousel">
 
@@ -611,27 +620,21 @@ html, body {
     <div class="fade-out"></div>
   </div>
 </div>
-
   </div>
 
   <div class="dots" id="dots"></div>
 </div>
+</div>
 
 <script>
 document.addEventListener('DOMContentLoaded', () => {
-  const widget = document.getElementById('review-carousel-widget');
-  const track  = widget.querySelector('#carousel');
+  const track  = document.getElementById('carousel');
   const slides = Array.from(track.children);
-  const dots   = widget.querySelector('#dots');
+  const dots   = document.getElementById('dots');
   let idx = 0;
 
-  function perView() {
-    return 3; // desktop-only
-  }
-
-  function maxIdx() {
-    return slides.length - perView();
-  }
+  function perView() { return 3; }
+  function maxIdx() { return slides.length - perView(); }
 
   // Build slides + dots
   slides.forEach((slide, i) => {
@@ -649,11 +652,15 @@ document.addEventListener('DOMContentLoaded', () => {
       update();
     });
     dots.append(dot);
+
+    slide.addEventListener('click', () => {
+      idx = i;
+      update();
+    });
   });
 
   function update() {
-    const view = perView();
-    const offset = idx * (100 / view);
+    const offset = idx * (100 / perView());
     track.style.transform = `translateX(-${offset}%)`;
 
     slides.forEach((s, i) => s.classList.toggle('active', i === idx));
