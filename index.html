@@ -671,6 +671,22 @@ document.addEventListener("DOMContentLoaded", () => {
     if (textInner) textInner.textContent = slide.dataset.full || "";
   });
 
+  // 🔥 FORCE ALL CARDS TO SAME HEIGHT
+  function lockCardHeights() {
+    const cards = Array.from(track.querySelectorAll(".review-card"));
+    let maxHeight = 0;
+
+    cards.forEach(card => {
+      card.style.height = "auto"; // reset
+      const h = card.offsetHeight;
+      if (h > maxHeight) maxHeight = h;
+    });
+
+    cards.forEach(card => {
+      card.style.height = maxHeight + "px";
+    });
+  }
+
   function normalize(i) {
     return (i + slides.length) % slides.length;
   }
@@ -699,7 +715,10 @@ document.addEventListener("DOMContentLoaded", () => {
     update();
   }, 4000);
 
+  // run once after layout
   update();
+  lockCardHeights();
+  window.addEventListener("resize", lockCardHeights);
 });
 </script>
 
