@@ -674,28 +674,13 @@ document.addEventListener("DOMContentLoaded", () => {
     if (textInner) textInner.textContent = slide.dataset.full || "";
   });
 
-  // ORIGINAL HEIGHT LOGIC — FIXED
-function lockHeights() {
-  const cards = Array.from(track.querySelectorAll(".review-card"));
-  let max = 0;
-
-  cards.forEach(card => {
-    card.style.height = "auto";
-
-    // detect if this card is the hero
-    const isHero = card.parentElement.classList.contains("hero");
-
-    // measure unscaled height
-    const rect = card.getBoundingClientRect();
-    const h = isHero ? rect.height / 1.04 : rect.height;
-
-    if (h > max) max = h;
-  });
-
-  cards.forEach(card => {
-    card.style.height = max + "px";
-  });
-}
+  // 🔥 NO MORE FORCED HEIGHTS
+  function lockHeights() {
+    const cards = Array.from(track.querySelectorAll(".review-card"));
+    cards.forEach(card => {
+      card.style.height = "auto";
+    });
+  }
 
   function normalize(i) {
     return (i + slides.length) % slides.length;
