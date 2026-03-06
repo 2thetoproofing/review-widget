@@ -675,20 +675,27 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 
   // ORIGINAL HEIGHT LOGIC — FIXED
-  function lockHeights() {
-    const cards = Array.from(track.querySelectorAll(".review-card"));
-    let max = 0;
+function lockHeights() {
+  const cards = Array.from(track.querySelectorAll(".review-card"));
+  let max = 0;
 
-    cards.forEach(card => {
-      card.style.height = "auto";
-      const h = card.getBoundingClientRect().height / (card.style.transform ? 1.08 : 1);
-      if (h > max) max = h;
-    });
+  cards.forEach(card => {
+    card.style.height = "auto";
 
-    cards.forEach(card => {
-      card.style.height = max + "px";
-    });
-  }
+    // detect if this card is the hero
+    const isHero = card.parentElement.classList.contains("hero");
+
+    // measure unscaled height
+    const rect = card.getBoundingClientRect();
+    const h = isHero ? rect.height / 1.04 : rect.height;
+
+    if (h > max) max = h;
+  });
+
+  cards.forEach(card => {
+    card.style.height = max + "px";
+  });
+}
 
   function normalize(i) {
     return (i + slides.length) % slides.length;
