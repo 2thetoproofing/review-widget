@@ -24,6 +24,12 @@ html, body {
   box-sizing: border-box;
 }
 
+#carousel {
+  margin: 0;
+  padding: 0;
+  transform-origin: left center !important;
+}
+
 /* TRACK */
 .carousel-track {
   display: flex;
@@ -33,7 +39,7 @@ html, body {
 
 /* SLIDE */
 .review-slide {
-  flex: 0 0 33.333%;
+  flex: 0 0 220px;
   display: flex;
   justify-content: center;
   align-items: stretch;
@@ -680,16 +686,17 @@ document.addEventListener("DOMContentLoaded", () => {
     return (i + slides.length) % slides.length;
   }
 
-  function update() {
-    const offset = (idx - 2) * 20;
-    track.style.transform = `translateX(-${offset}%)`;
+function update() {
+  const slideWidth = track.querySelector(".review-slide").getBoundingClientRect().width;
+  const offset = (idx - 2) * slideWidth;
+  track.style.transform = `translateX(-${offset}px)`;
 
-    slides.forEach((slide, i) => {
-      slide.classList.remove("hero", "side");
-      if (i === idx) slide.classList.add("hero");
-      else slide.classList.add("side");
-    });
-  }
+  slides.forEach((slide, i) => {
+    slide.classList.remove("hero", "side");
+    if (i === idx) slide.classList.add("hero");
+    else slide.classList.add("side");
+  });
+}
 
   slides.forEach((slide, i) => {
     slide.addEventListener("click", () => {
@@ -704,12 +711,9 @@ document.addEventListener("DOMContentLoaded", () => {
     update();
   }, 4000);
 
-  requestAnimationFrame(() => {
-    lockHeights();
-    update();
-  });
-
-  window.addEventListener("resize", lockHeights);
+requestAnimationFrame(() => {
+  update();
+});
 });
 </script>
 </body>
